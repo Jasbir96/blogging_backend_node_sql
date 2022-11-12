@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Jasbir96/blogging_backend_node_sql/issues"
   },
-  "homepage": "https://github.com/Jasbir96/blogging_backend_node_sql#readme"
+  "homepage": "https://github.com/Jasbir96/blogging_backend_node_sql#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
