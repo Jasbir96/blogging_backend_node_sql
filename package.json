@@ -2,7 +2,7 @@
   "name": "blogging_backend_node_sql",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/Jasbir96/blogging_backend_node_sql.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jasbir Singh",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Jasbir96/blogging_backend_node_sql/issues"
