@@ -1,10 +1,10 @@
 const mysql=require("mysql");
-
+require("dotenv").config();
 var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'blog_app'
+    host: process.env.HOST,
+    user: process.env.USERNAME,
+    password:process.env.PASSWORD,
+    database: process.env.DATABASE
 });
 
 connection.connect(function(err,res){
