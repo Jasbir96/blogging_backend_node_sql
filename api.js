@@ -1,6 +1,9 @@
 const express=require("express");
 const app=express();
+const userModel=require("./models/userModel.js");
 app.use(express.json());
+
+
 app.post("/users", userSignupController)
 
 async function userSignupController(req, res) {
