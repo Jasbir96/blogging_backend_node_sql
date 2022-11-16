@@ -1,9 +1,11 @@
 const express=require("express");
 const app=express();
 const userRouter=require("./routes/userRoutes");
+const profileRouter=require("./routes/profileRoutes");
 // 1. data 
 app.use(express.json());
  app.use("/users",userRouter);
+ app.use("/profiles",profileRouter);
  
 
 
