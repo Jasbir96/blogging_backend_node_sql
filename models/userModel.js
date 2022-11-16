@@ -6,7 +6,7 @@ const create=async (userObj)=>{
 // a.) generate id  
     userObj.id = uuidv4();
 //b .) generate password hash
-userObj["password_hash"]=bcrypt.hash(userObj.password,10);
+userObj["password_hash"]=await bcrypt.hash(userObj.password,10);
 //c.) remove password confirm Password,password -> after we have created hash
 delete userObj.password;
 delete userObj.confirmPassword;
