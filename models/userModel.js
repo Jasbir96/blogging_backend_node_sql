@@ -8,7 +8,10 @@ const create=async (userObj)=>{
 //b .) generate password hash
 userObj["password_hash"]=bcrypt.hash(userObj.password,10);
 //c.) remove password confirm Password,password -> after we have created hash
+delete userObj.password;
+delete userObj.confirmPassword;
 // 2. make a db query
+
 
 
 
