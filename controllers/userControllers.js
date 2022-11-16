@@ -1,4 +1,5 @@
 const userModel =require("../models/userModel");
+const bcrypt=require("bcrypt");
 
 async function userSignupController(req, res) {
     try {
@@ -32,4 +33,51 @@ async function userSignupController(req, res) {
         })
     }
 }
-module.exports={userSignupController};
+
+async function userLoginController(req,res){
+    try{
+    // 1. getting data -> email,password -> to check email and password are present or not
+    const {email,password}=req.body;
+    if (email == undefined || password == undefined) {
+     return   res.status(400).json({
+            status: "failure",
+            message: "missing required data"
+        })
+    }
+    // 2. we will finding our user -> email
+const user=await  userModel.getEntity({email});
+// X -> return user is not found
+if(!user){
+  return  res.status(404).json({
+        status: "failure",
+        message: "no user found kindly signup"
+    })
+}
+// // 3. decrypt password==client password
+        const result=await bcrypt.compare(password, user["password_hash"]);
+        if(!result){
+            return res.status(400).json({
+                status: "failure",
+                message: "password or email is not matching"
+            })
+        }
+        res.status(200).json({
+            status:"success",
+            message:"user logged in successfully"
+        })
+}catch(err){
+    res.status(500).json({
+        status: "failure",
+        err: err.message
+
+    })
+}
+
+
+
+
+
+
+}
+module.exports={userSignupController,
+    userLoginController};

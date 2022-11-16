@@ -27,5 +27,23 @@ connection.query(`INSERT INTO users SET ?`,userObj,(err,res)=>{
 
 }
 
+const getEntity =async (obj)=>{
+let searchString="";
+for(let key in obj){
+    searchString+=`${key}="${obj[key]}",`;
+}
+
+searchString=searchString.substring(0,searchString.length-1);
+return new Promise((resolve,reject)=>{
+connection.query(`SELECT * FROM users WHERE ${searchString}`,function(err,res){
+    if(err){
+        reject(err);}
+        else{
+            resolve(res[0]);
+        }
+})
+})
+}
 module.exports.create=create;
+module.exports.getEntity=getEntity;
 
