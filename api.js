@@ -1,6 +1,6 @@
 const express=require("express");
 const app=express();
-
+app.use(express.json());
 app.post("/users", function (req, res) {
     console.log("req body data", req.body);
     res.status(200).json({
