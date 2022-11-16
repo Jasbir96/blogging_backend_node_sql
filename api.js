@@ -15,7 +15,7 @@ next()
 ;})
 
  app.use("/users",userRouter);
- app.use("/profile",profileRouter);
+ app.use("/profiles",profileRouter);
  
 
 
