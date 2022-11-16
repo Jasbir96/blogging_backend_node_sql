@@ -1,6 +1,6 @@
 const userModel =require("../models/userModel");
 const bcrypt=require("bcrypt");
-
+const jwt=require("jsonwebtoken");
 async function userSignupController(req, res) {
     try {
         // 1. check for every data that is required is present
@@ -61,6 +61,10 @@ if(!user){
                 message: "password or email is not matching"
             })
         }
+     const token=  jwt.sign(user.id, process.env.JWT_SECRET);
+     res.cookie("jwt",token,{
+        httpOnly:true
+     })
         res.status(200).json({
             status:"success",
             message:"user logged in successfully"
