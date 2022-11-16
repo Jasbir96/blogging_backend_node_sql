@@ -11,6 +11,16 @@ userObj["password_hash"]=bcrypt.hash(userObj.password,10);
 delete userObj.password;
 delete userObj.confirmPassword;
 // 2. make a db query
+return new Promise((resolve,reject)=>{
+connection.query(`INSERT INTO users SET ?`,userObj,(err,res)=>{
+    if(err){
+        reject(err);}
+        else{
+            resolve(res);
+        }
+})
+
+})
 
 
 
