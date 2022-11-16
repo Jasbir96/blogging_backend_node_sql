@@ -12,11 +12,18 @@ async function userSignupController(req, res) {
 let userObj=req.body;
 if(userObj.username==undefined||userObj.password==undefined||userObj.email==undefined||
     userObj.confirmPassword==undefined||userObj.bio==undefined){
-        res.status(400).json({
+     return  res.status(400).json({
             status:"failure",
             message:"missing required data"
         })
     } 
+if(userObj.password!=userObj.confirmPassword){
+ return res.status(400).json({
+    status:"failure",
+    message:"passwords and confirm do not match"
+
+  }) 
+}
 //  2. send the data to DB -> to create user
     await userModel.create(userObj);
 // 3. send success response to the client  
