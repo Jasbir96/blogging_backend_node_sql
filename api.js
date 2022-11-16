@@ -1,10 +1,19 @@
 const express=require("express");
+const cookieParser=require("cookie-parser");
 const app=express();
 const userRouter=require("./routes/userRoutes");
 const profileRouter=require("./routes/profileRoutes");
 
 // 1. data 
 app.use(express.json());
+app.use(cookieParser());
+// user defined middleware
+app.use(function(req, res,next){
+let jwt=req.cookies.jwt;
+console.log("jwt",jwt);
+next()
+;})
+
  app.use("/users",userRouter);
  app.use("/profile",profileRouter);
  
