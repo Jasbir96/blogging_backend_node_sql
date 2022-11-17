@@ -1,7 +1,9 @@
 const express=require("express");
 const profileRouter=express.Router();
-const { profileUserNameController }
+const { profileUserNameController,getAllprofileControllers }
 =require("../controllers/profileControllers");
 
+profileRouter.get("/",
+getAllprofileControllers);
 profileRouter.get("/:username",profileUserNameController);
 module.exports=profileRouter;

@@ -25,5 +25,32 @@ const profileUserNameController = async (req, res) => {
         })
     }
 }
+const getAllprofileControllers=async(req,res)=>{
+    try {
+        const page=req.query.page||1;
+        const size=req.query.size||10;
 
-module.exports = { profileUserNameController }
+    const users= await userModel.getAll(page,size);
+    if(users.length==0){
+        return res.status(404).json({
+            status: "failure",
+            message: "No users found"
+        })
+    }
+    res.status(200).json({
+        status: "success",
+        message:users
+    })
+
+    }catch(err){
+        res.status(500).json({
+            status: "failure",
+            err: err.message
+        })
+    }
+
+}
+
+module.exports = { profileUserNameController
+, getAllprofileControllers
+}

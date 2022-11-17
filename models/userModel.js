@@ -27,7 +27,7 @@ connection.query(`INSERT INTO users SET ?`,userObj,(err,res)=>{
 
 }
 
-const getEntity =async (obj)=>{
+const getEntity = (obj)=>{
 let searchString="";
 for(let key in obj){
     searchString+=`${key}="${obj[key]}",`;
@@ -44,6 +44,21 @@ connection.query(`SELECT * FROM users WHERE ${searchString}`,function(err,res){
 })
 })
 }
+const getAll=(page,size)=>{
+    const offset=(page-1)*size;
+return new Promise((resolve,reject)=>{
+    connection.query(`SELECT * FROM users 
+    LIMIT ${size} OFFSET ${offset}
+    `,function(err,res){
+        if(err){
+            reject(err);}
+            else{
+                resolve(res);
+            }
+
+    })
+})}
 module.exports.create=create;
 module.exports.getEntity=getEntity;
+module.exports.getAll=getAll;
 
