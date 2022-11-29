@@ -3,6 +3,7 @@ const cookieParser=require("cookie-parser");
 const app=express();
 const userRouter=require("./routes/userRoutes");
 const profileRouter=require("./routes/profileRoutes");
+const articleRouter=require("./routes/articleRoutes");
 
 // 1. data 
 app.use(express.json());
@@ -16,7 +17,7 @@ next()
 
  app.use("/users",userRouter);
  app.use("/profiles",profileRouter);
- 
+ app.use("/articles",articleRouter);
 
 
 // 404 page not found  

@@ -82,7 +82,7 @@ try{
 let u_id=req.userId;
     let following_id = req.body.following_id;
     if(following_id == undefined){
-        res.status(400).json({
+       return res.status(400).json({
             status:"failure",
             message:"missing following_id"
         })
@@ -107,7 +107,7 @@ async function unfollowController(req, res) {
         let u_id = req.userId;
         let following_id = req.body.following_id;
         if (following_id == undefined) {
-            res.status(400).json({
+          return   res.status(400).json({
                 status: "failure",
                 message: "missing following_id"
             })
