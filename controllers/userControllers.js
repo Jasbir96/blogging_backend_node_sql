@@ -76,24 +76,24 @@ if(!user){
 
     })
 }
-
-
-
-
-
 }
 async function followController(req,res){
 try{
 let u_id=req.userId;
-    let following_id = req.body.following_id
+    let following_id = req.body.following_id;
+    if(following_id == undefined){
+        res.status(400).json({
+            status:"failure",
+            message:"missing following_id"
+        })
+    }
+    await userModel.follow(u_id,following_id);
     res.status(200).json({
-        message:"succes",
-        data:{
-            u_id,
-            following_id
-        }
+        status:"succes",
+        message:"user followed successfully"
     })
 }catch(err){
+    console.log(err)
     res.status(500).json({
         status: "failure",
         err: err.message
@@ -105,13 +105,17 @@ let u_id=req.userId;
 async function unfollowController(req, res) {
     try {
         let u_id = req.userId;
-        let following_id = req.body.following_id
+        let following_id = req.body.following_id;
+        if (following_id == undefined) {
+            res.status(400).json({
+                status: "failure",
+                message: "missing following_id"
+            })
+        }
+        await userModel.unfollow(u_id, following_id);
         res.status(200).json({
-            message: "succes",
-            data: {
-                u_id,
-                following_id
-            }
+            status: "success",
+            message: "user unfollowed successfully"
         })
     } catch (err) {
         res.status(500).json({

@@ -4,7 +4,8 @@ const protectRoute=(req,res,next)=>{
         let token=req.cookies.jwt;
     let decodedToken= jwt.verify(token, process.env.JWT_SECRET);
     if(decodedToken){
-        req.userId=decodedToken.id;
+        req.userId=decodedToken;
+        console.log("token",decodedToken);
         next();
     }
     }catch(err){
