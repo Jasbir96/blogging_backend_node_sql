@@ -81,7 +81,49 @@ if(!user){
 
 
 
+}
+async function followController(req,res){
+try{
+let u_id=req.userId;
+    let following_id = req.body.following_id
+    res.status(200).json({
+        message:"succes",
+        data:{
+            u_id,
+            following_id
+        }
+    })
+}catch(err){
+    res.status(500).json({
+        status: "failure",
+        err: err.message
+
+    })
+}
+}
+
+async function unfollowController(req, res) {
+    try {
+        let u_id = req.userId;
+        let following_id = req.body.following_id
+        res.status(200).json({
+            message: "succes",
+            data: {
+                u_id,
+                following_id
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: "failure",
+            err: err.message
+
+        })
+    }
 
 }
 module.exports={userSignupController,
-    userLoginController};
+    userLoginController,
+followController,
+unfollowController
+};
