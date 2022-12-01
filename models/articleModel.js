@@ -38,4 +38,21 @@ const create = function (articleObj) {
 
 
 }
-module.exports = { create };
+const getByEntity = (obj) => {
+    let searchString = "";
+    for (let key in obj) {
+        searchString += `${key}="${obj[key]}",`;
+    }
+    searchString = searchString.substring(0, searchString.length - 1);
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM articles WHERE ${searchString}`, function (err, res) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(res[0]);
+            }
+        })
+    })
+}
+module.exports = { create,getByEntity };

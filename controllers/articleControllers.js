@@ -30,4 +30,31 @@ res.status(500).json({
 }
 
 }
-module.exports={createArticleController};
+const getArticleBySlugController =async (req,res)=>{
+    try{
+const articleSlug=req.params["article_slug"];
+const article =await articleModel.getByEntity({slug:articleSlug});
+if(article==null){
+    res.status(404).json({
+        status: "failure",
+        message: "article not found"
+    })
+}else{
+    res.status(200).json({
+            status: "success",
+            message: article,
+            
+        })
+}
+
+    }catch(err){
+        return res.status(500).json({
+            status: "failure",
+            message: err.message
+        })
+    }
+}
+
+module.exports={createArticleController,
+    getArticleBySlugController
+};
