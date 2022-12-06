@@ -2,7 +2,7 @@ const express=require("express");
 const { protectRoute, identifyIsSameUserMiddleware } = require("../middlewares/auth");
 const {createArticleController,getArticleBySlugController,
     getAllController, updateArticleController,likeArticleController, dislikeArticleController,
-    createCommentController
+    createCommentController, deleteCommentController
 } = require("../controllers/articleControllers");
 const articleRouter=express.Router();
 articleRouter.get("/",getAllController);
@@ -20,6 +20,12 @@ articleRouter.route("/:article_slug/dislike")
 // ****************comments section****************
 articleRouter.route("/:article_slug/comments")
    .post(protectRoute, createCommentController)
+
+articleRouter.delete("/:article_slug/comments/:comment_id",
+protectRoute,identifyIsSameUserMiddleware,deleteCommentController
+)
+
+
 
 
 module.exports = articleRouter;

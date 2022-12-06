@@ -98,6 +98,10 @@ const updateArticleController = async (req, res) => {
         })
     }
 }
+
+
+
+// *************likes**************
 const likeArticleController = async (req, res) => {
     try {
         let userId = req.userId;
@@ -132,6 +136,10 @@ const dislikeArticleController = async (req, res) => {
         })
     }
 }
+
+
+
+// ********comments *********
 const createCommentController = async (req, res) => {
     try {
 
@@ -156,7 +164,21 @@ const createCommentController = async (req, res) => {
         })
     }
 }
-
+const deleteCommentController =async (req,res)=>{
+    try {
+        let commentId = req.params["comment_id"];
+        await commentModel.deleteCommentOfArticle(commentId);
+        res.status(200).json({
+            status: "success",
+            data: "comment deleted successfully"
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: "failure",
+            err: err.message
+        })
+    }
+}
 module.exports = {
     createArticleController,
     getArticleBySlugController,
@@ -164,5 +186,6 @@ module.exports = {
     updateArticleController,
     likeArticleController,
     dislikeArticleController,
-    createCommentController
+    createCommentController,
+    deleteCommentController
 };
