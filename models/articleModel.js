@@ -198,10 +198,38 @@ const updateTagsHelper = (tags, articleSlug) => {
         })
     });
 }
+const like = (userId, articleSlug)=>{
+    return new Promise(function (resolve, reject) {
+        connection.query(`INSERT INTO likes SET u_id = "${userId}", article_slug = "${articleSlug}" `,
+            function (err, result) {
+                if (err) {
+                    reject(err)
+                    return;
+                } else {
+                    resolve(result);
+                }
+            });
+    })
+}
+const unlike = (userId, articleSlug)=>{
+    return new Promise(function (resolve, reject) {
+        connection.query(`DELETE  FROM likes 
+        WHERE u_id = "${userId}" AND article_slug = "${articleSlug}" `,
+            function (err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result);
+                }
+            });
+    })
+}
 module.exports = {
     create, getByEntity
     , getAll,
-    updateBySlug
+    updateBySlug,
+    unlike,
+    like
 };
 
 // SELECT * from articles 

@@ -96,9 +96,45 @@ const updateArticleController=async (req,res)=>{
         })
     }
 }
+const likeArticleController=async(req,res)=>{
+    try {
+        let userId = req.userId;
+        // the user i want to follow;
+        let articleSlug = req.params["article_slug"];
+        await articleModel.like(userId, articleSlug);
+        res.status(201).json({
+            status: "success",
+            result: "you are have now liked the post"
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: "failure",
+            err: err.message
+        })
+    }
+}
+const dislikeArticleController=async(req,res)=>{
+    try {
+        let userId = req.userId;
+        let articleSlug = req.params["article_slug"];
+
+        await articleModel.unlike(userId, articleSlug);
+        res.status(200).json({
+            status: "success",
+            result: "you are have now disliked the post"
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: "failure",
+            err: err.message
+        })
+    }
+}
 
 module.exports={createArticleController,
     getArticleBySlugController,
     getAllController,
-    updateArticleController
+    updateArticleController,
+    likeArticleController,
+    dislikeArticleController
 };
