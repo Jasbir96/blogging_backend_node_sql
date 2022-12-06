@@ -54,7 +54,26 @@ if(article==null){
         })
     }
 }
+const getAllController=async(req,res)=>{
+    try{
+// i need get data from the query params
+const query=req.query;
+// feed that to model 
+const result=await articleModel.getAll(query);
+// return the response 
+res.status(200).json({
+    status: "success",
+    message:result
+})
+    }catch(err){
+        return res.status(500).json({
+            status: "failure",
+            message: err.message
+        })
+    }
+}
 
 module.exports={createArticleController,
-    getArticleBySlugController
+    getArticleBySlugController,
+    getAllController
 };

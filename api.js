@@ -19,7 +19,6 @@ next()
  app.use("/profiles",profileRouter);
  app.use("/articles",articleRouter);
 
-
 // 404 page not found  
 app.use(function (req, res) {
     return res.status(404).json({
