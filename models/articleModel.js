@@ -120,9 +120,10 @@ const inClauseTransformHelper = (arr, key) => {
     }
     arraySlugString = arraySlugString.substring(0, arraySlugString.length - 1);
     arraySlugString += ")";
-    return arraySlugString
+    return arraySlugString;
 }
 const whereClauseHelper = (queryObj) => {
+    let searchString = "";
     for (let attr in queryObj) {
         searchString += `${attr} = "${queryObj[attr]}",`
     }
@@ -143,9 +144,64 @@ const getSlugfromArticleTags =  (tags) => {
     })
 }
 
+
+const updateBySlug = async (articleSlug, toUpdateObject)=>{
+    //  if someone wants update only the article table
+    // if someone wants update tags
+    let tags = toUpdateObject.tags || [];
+    delete toUpdateObject.tags;
+
+    const somethingToUpdate = Object.keys(toUpdateObject).length > 0;
+
+    const tagsToUpdate = tags.length > 0;
+    if (somethingToUpdate) {
+        let updateString = whereClauseHelper(toUpdateObject);
+        await updateArticleHelper(updateString, articleSlug);
+    }
+    if (tagsToUpdate) {
+        await updateTagsHelper(tags, articleSlug);
+    }
+}
+const updateArticleHelper = (updateString, articleSlug) => {
+    return new Promise(function (resolve, reject) {
+        connection.query(`UPDATE articles SET ${updateString} WHERE slug="${articleSlug}"`,
+            function (err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve();
+                }
+            });
+    })
+}
+
+const updateTagsHelper = (tags, articleSlug) => {
+    return new Promise(function (resolve, reject) {
+        connection.query(`DELETE from article_tags WHERE a_slug="${articleSlug}"`, function (err, result) {
+            if (err) {
+                reject(err);
+            } else {
+                const entries = [];
+                for (let i = 0; i < tags.length; i++) {
+                    let tag = tags[i];
+                    entries.push([articleSlug, tag]);
+                }
+                const tagsTableSql = "INSERT INTO article_tags (a_slug,name) VALUES ?";
+                connection.query(tagsTableSql, [entries], function (err, res) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                })
+            }
+        })
+    });
+}
 module.exports = {
     create, getByEntity
-    , getAll
+    , getAll,
+    updateBySlug
 };
 
 // SELECT * from articles 

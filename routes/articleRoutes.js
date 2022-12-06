@@ -1,11 +1,12 @@
 const express=require("express");
-const {protectRoute} = require("../middlewares/auth");
+const { protectRoute, identifyIsSameUserMiddleware } = require("../middlewares/auth");
 const {createArticleController,getArticleBySlugController,
-getAllController
+    getAllController, updateArticleController
 } = require("../controllers/articleControllers");
 const articleRouter=express.Router();
 articleRouter.get("/",getAllController);
 articleRouter.post("/",protectRoute, createArticleController);
-articleRouter.get("/:article_slug",getArticleBySlugController);
-
+articleRouter.route("/:article_slug").
+get(getArticleBySlugController)
+.patch(protectRoute, identifyIsSameUserMiddleware, updateArticleController);
 module.exports = articleRouter

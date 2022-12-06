@@ -72,8 +72,33 @@ res.status(200).json({
         })
     }
 }
+const updateArticleController=async (req,res)=>{
+    try {
+    // we need update 
+        let updateObj = req.body;
+        let articleSlug = req.params["article_slug"];
+        if (Object.keys(updateObj).length == 0 || updateObj.title != undefined) {
+            return res.status(400).json({
+                status: "failure",
+                data: "invalid request"
+            })
+        }
+        await articleModel.updateBySlug(articleSlug, updateObj);
+        // return the response 
+        res.status(200).json({
+            status: "success",
+            data: "article successfully updated"
+        })
+    } catch (err) {
+        return res.status(500).json({
+            status: "failure",
+            message: err.message
+        })
+    }
+}
 
 module.exports={createArticleController,
     getArticleBySlugController,
-    getAllController
+    getAllController,
+    updateArticleController
 };
