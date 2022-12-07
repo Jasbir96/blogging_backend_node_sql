@@ -29,7 +29,22 @@ const deleteCommentOfArticle = (commentId) => {
         })
     })
 }
+const getAllCommentOfAnArticle = (articleSlug, page, size) => {
+    let offset=(page-1)*size;
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM comments WHERE article_slug="${articleSlug}" 
+        LIMIT ${size} OFFSET ${offset}`,
+            function (err, res) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(res);
+                }
+            })
+    })
+}
 module.exports = {
     create,
-    deleteCommentOfArticle
+    deleteCommentOfArticle,
+    getAllCommentOfAnArticle
 }

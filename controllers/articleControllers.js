@@ -179,6 +179,31 @@ const deleteCommentController =async (req,res)=>{
         })
     }
 }
+const commentsOfArticleController=async(req,res)=>{
+    try{
+        const articlSlug = req.params["article_slug"];
+        const page=req.query.page||1;
+        const size=req.query.size||10;
+    const comments= await commentModel.getAllCommentOfAnArticle(articlSlug,page,size);
+    if(comments.length==0){
+        return res.status(404).json({
+            status: "failure",
+            data: "no comment found"
+        })
+    }
+    res.status(200).json({
+        status:"success",
+        message:comments
+    })
+
+
+    }catch(err){
+        res.status(500).json({
+            status: "failure",
+            err: err.message
+        })
+    }
+}
 module.exports = {
     createArticleController,
     getArticleBySlugController,
@@ -187,5 +212,6 @@ module.exports = {
     likeArticleController,
     dislikeArticleController,
     createCommentController,
-    deleteCommentController
+    deleteCommentController,
+    commentsOfArticleController
 };
