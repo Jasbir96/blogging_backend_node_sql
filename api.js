@@ -4,7 +4,8 @@ const app=express();
 const userRouter=require("./routes/userRoutes");
 const profileRouter=require("./routes/profileRoutes");
 const articleRouter=require("./routes/articleRoutes");
-
+const { protectRoute } = require("./middlewares/auth");
+const {feedController} = require("./controllers/articleControllers");
 // 1. data 
 app.use(express.json());
 app.use(cookieParser());
@@ -14,7 +15,7 @@ let jwt=req.cookies.jwt;
 console.log("jwt",jwt);
 next()
 ;})
-
+app.use("/feed",protectRoute,feedController);
  app.use("/users",userRouter);
  app.use("/profiles",profileRouter);
  app.use("/articles",articleRouter);

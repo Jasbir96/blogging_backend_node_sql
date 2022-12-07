@@ -99,7 +99,34 @@ const updateArticleController = async (req, res) => {
     }
 }
 
+const feedController = async (req, res) => {
+    try {
+        const size = req.query.size||10;
+        const page = req.query.page||1;;
+        const userId = req.userId;
+        const articles = await articleModel.feed(size, page, userId);
+        if (articles.length == 0) {
+            res.status(404).json({
+                status: "failure",
+                data: "articles not found"
+            })
+            return;
+        }
+        res.status(200).json({
+            status: "success",
+            data: articles
+        })
 
+
+    } catch (err) {
+        return res.status(500).json({
+            status: "failure",
+            message: err.message
+        })
+    }
+
+
+}
 
 // *************likes**************
 const likeArticleController = async (req, res) => {
@@ -164,7 +191,7 @@ const createCommentController = async (req, res) => {
         })
     }
 }
-const deleteCommentController =async (req,res)=>{
+const deleteCommentController = async (req, res) => {
     try {
         let commentId = req.params["comment_id"];
         await commentModel.deleteCommentOfArticle(commentId);
@@ -179,25 +206,25 @@ const deleteCommentController =async (req,res)=>{
         })
     }
 }
-const commentsOfArticleController=async(req,res)=>{
-    try{
+const commentsOfArticleController = async (req, res) => {
+    try {
         const articlSlug = req.params["article_slug"];
-        const page=req.query.page||1;
-        const size=req.query.size||10;
-    const comments= await commentModel.getAllCommentOfAnArticle(articlSlug,page,size);
-    if(comments.length==0){
-        return res.status(404).json({
-            status: "failure",
-            data: "no comment found"
+        const page = req.query.page || 1;
+        const size = req.query.size || 10;
+        const comments = await commentModel.getAllCommentOfAnArticle(articlSlug, page, size);
+        if (comments.length == 0) {
+            return res.status(404).json({
+                status: "failure",
+                data: "no comment found"
+            })
+        }
+        res.status(200).json({
+            status: "success",
+            message: comments
         })
-    }
-    res.status(200).json({
-        status:"success",
-        message:comments
-    })
 
 
-    }catch(err){
+    } catch (err) {
         res.status(500).json({
             status: "failure",
             err: err.message
@@ -213,5 +240,6 @@ module.exports = {
     dislikeArticleController,
     createCommentController,
     deleteCommentController,
-    commentsOfArticleController
+    commentsOfArticleController,
+    feedController
 };
